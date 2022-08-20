@@ -77,4 +77,4 @@ for xml in arquivos:
 df = pd.DataFrame([item for sublista in Dicionarios_final for item in sublista])
 
 # Para salvar em um arquivo excel descomente a próxima linha:
-df.to_excel('Nome_do_arquivo.xlsx')
+#df.to_excel('Nome_do_arquivo.xlsx')
