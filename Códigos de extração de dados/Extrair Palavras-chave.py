@@ -2,7 +2,7 @@
 """
 Created on Mon Jul 18 23:16:08 2022
 
-@author: corte
+@author: Caique Cortes
 """
 
 import xml.etree.ElementTree as ET
