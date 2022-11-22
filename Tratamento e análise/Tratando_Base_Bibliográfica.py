@@ -15,13 +15,13 @@ Base_geral = pd.merge(Base_geral,Unindo_datas, how='left', on='Pesquisador' ) #S
 #periodo de publicação na graduação
 df_graduandos = Base_geral
 df_graduandos = df_graduandos[df_graduandos['Ano de Publicação'] <= df_graduandos['Fim GRADUACAO'] ]
-n_public_graduandos = df_graduandos['Nome'].value_counts()
+n_public_graduandos = df_graduandos['Pesquisador'].value_counts()
 
 #periodo de publicação no mestrado
 df_pesquisadores = Base_geral
 df_pesquisadores['Teste para mestrado'] = df_pesquisadores['Ano de Publicação'].ge(df_pesquisadores['Inicio MESTRADO']) & df_pesquisadores['Ano de Publicação'].le(df_pesquisadores['Fim MESTRADO'])
 df_pesquisadores = df_pesquisadores.where(df_pesquisadores['Teste para mestrado'] == True).dropna(how ='all')
-N_que_publicou= df_pesquisadores['Nome'].value_counts()
+N_que_publicou= df_pesquisadores['Pesquisador'].value_counts()
 
 
 #periodo de publicação após o vínculo com o IB
@@ -35,82 +35,74 @@ df_antes_do_vinculo['Public. por período antes do vínculo'] = df_antes_do_vinc
 
 
 #Publicados pelos doutorandos durante graduação
-Doutorandos = Datas_Docs['Nome'].tolist() #gerando uma lista de quem são os doutorandos
-Doutorandos_na_graduacao = df_graduandos[df_graduandos['Nome'].isin(Doutorandos)] #filtrando o dataframe entre aqueles que publicaram na graduação
-N_doutorando_que_publicou_na_grad = Doutorandos_na_graduacao['Nome'].value_counts()  #deixando apenas os doutorandos que publicaram na graduação nesse novo dataframe
+Doutorandos = Datas_Docs['Pesquisador'].tolist() #gerando uma lista de quem são os doutorandos
+Doutorandos_na_graduacao = df_graduandos[df_graduandos['Pesquisador'].isin(Doutorandos)] #filtrando o dataframe entre aqueles que publicaram na graduação
+N_doutorando_que_publicou_na_grad = Doutorandos_na_graduacao['Pesquisador'].value_counts()  #deixando apenas os doutorandos que publicaram na graduação nesse novo dataframe
 Média_docs_graduação = N_doutorando_que_publicou_na_grad.sum()/len(Doutorandos) #soma de publicações dividido pelo número de doutorandos
 
 #Publicados pelos Pós-docs durante graduação
-Pos_doutorandos = (Datas_pós_doc['Nome'].tolist())
-Pós_docs_na_graduacao = df_graduandos[df_graduandos['Nome'].isin(Pos_doutorandos)] #buscando pelos pós-doutorandos no dataframe de publicações na graduação
-N_pós_doc_que_publicou_na_grad = Pós_docs_na_graduacao['Nome'].value_counts()  #value_counts conta o número de vezes que determinado nome ocorre na coluna
+Pos_doutorandos = (Datas_pós_doc['Pesquisador'].tolist())
+Pós_docs_na_graduacao = df_graduandos[df_graduandos['Pesquisador'].isin(Pos_doutorandos)] #buscando pelos pós-doutorandos no dataframe de publicações na graduação
+N_pós_doc_que_publicou_na_grad = Pós_docs_na_graduacao['Pesquisador'].value_counts()  #value_counts conta o número de vezes que determinado Pesquisador ocorre na coluna
 Média_pos_docs_graduacao = N_pós_doc_que_publicou_na_grad.sum()/len(Pos_doutorandos)
 
 #Publicados pelos professores durante graduação
-Professores = (Datas_profs['Nome'].tolist())
-Professores_na_graduacao = df_graduandos[df_graduandos['Nome'].isin(Professores)]
-N_professor_que_publicou_na_grad = Professores_na_graduacao['Nome'].value_counts()
+Professores = (Datas_profs['Pesquisador'].tolist())
+Professores_na_graduacao = df_graduandos[df_graduandos['Pesquisador'].isin(Professores)]
+N_professor_que_publicou_na_grad = Professores_na_graduacao['Pesquisador'].value_counts()
 Média_professor_graduação = N_professor_que_publicou_na_grad.sum()/len(Professores)
 
 
 
 #Publicados pelos doutorandos no mestrado
-Doutorandos_no_mestrado = df_pesquisadores[df_pesquisadores['Nome'].isin(Doutorandos)]
-N_doutorando_que_publicou_no_mest = Doutorandos_no_mestrado['Nome'].value_counts() #teste N_doutorando_que_publicou e veja
-Média_docs_mestrad = N_doutorando_que_publicou_no_mest.sum()/len(Doutorandos)    #value_counts está retornando o nome e o número de publicações de dado autor
+Doutorandos_no_mestrado = df_pesquisadores[df_pesquisadores['Pesquisador'].isin(Doutorandos)]
+N_doutorando_que_publicou_no_mest = Doutorandos_no_mestrado['Pesquisador'].value_counts() #teste N_doutorando_que_publicou e veja
+Média_docs_mestrad = N_doutorando_que_publicou_no_mest.sum()/len(Doutorandos)    #value_counts está retornando o Pesquisador e o número de publicações de dado autor
 
 #Publicados pelos pós-doutorandos no mestrado
-pos_doutor_no_mestrado = df_pesquisadores[df_pesquisadores['Nome'].isin(Pos_doutorandos)]
-N_pos_doutor_que_publicou_no_mest = pos_doutor_no_mestrado['Nome'].value_counts() 
+pos_doutor_no_mestrado = df_pesquisadores[df_pesquisadores['Pesquisador'].isin(Pos_doutorandos)]
+N_pos_doutor_que_publicou_no_mest = pos_doutor_no_mestrado['Pesquisador'].value_counts() 
 Média_pos_docs_mestrado = N_pos_doutor_que_publicou_no_mest.sum()/len(Pos_doutorandos)
 
 #Publicados pelos professores no mestrado
-professores_no_mestrado = df_pesquisadores[df_pesquisadores['Nome'].isin(Professores)]
-N_professor_que_publicou_no_mest = professores_no_mestrado['Nome'].value_counts() 
+professores_no_mestrado = df_pesquisadores[df_pesquisadores['Pesquisador'].isin(Professores)]
+N_professor_que_publicou_no_mest = professores_no_mestrado['Pesquisador'].value_counts() 
 Média_professores_mestrado = N_professor_que_publicou_no_mest.sum()/len(Professores)
 
 
 
 #publicações de doutorandos antes do vínculo
-doutorandos_antes = df_antes_do_vinculo[df_antes_do_vinculo['Nome'].isin(Doutorandos)]
-publicados_doutorandos_antes = doutorandos_antes['Nome'].value_counts()
+doutorandos_antes = df_antes_do_vinculo[df_antes_do_vinculo['Pesquisador'].isin(Doutorandos)]
+publicados_doutorandos_antes = doutorandos_antes['Pesquisador'].value_counts()
 resultado_antes_doutorandos = publicados_doutorandos_antes.sum()/len(Doutorandos)
 
 #publicações de pos-docs antes do vínculo
-pos_docs_antes = df_antes_do_vinculo[df_antes_do_vinculo['Nome'].isin(Pos_doutorandos)]
-publicados_pos_docs_antes = pos_docs_antes['Nome'].value_counts()
+pos_docs_antes = df_antes_do_vinculo[df_antes_do_vinculo['Pesquisador'].isin(Pos_doutorandos)]
+publicados_pos_docs_antes = pos_docs_antes['Pesquisador'].value_counts()
 resultado_antes_pos_docs = publicados_pos_docs_antes.sum()/len(Pos_doutorandos)
 
 #publicações de professores antes do vínculo
-professores_antes = df_antes_do_vinculo[df_antes_do_vinculo['Nome'].isin(Professores)]
-publicados_professores_antes = professores_antes['Nome'].value_counts()
+professores_antes = df_antes_do_vinculo[df_antes_do_vinculo['Pesquisador'].isin(Professores)]
+publicados_professores_antes = professores_antes['Pesquisador'].value_counts()
 resultado_antes_prof = publicados_professores_antes.sum()/len(Professores)
 
 
 #doutorandos apos vinculo
-doutorandos_apos_vinculo = df_após_vinculo[df_após_vinculo['Nome'].isin(Doutorandos)]
-média_artigo_docs = doutorandos_apos_vinculo['Nome'].value_counts().sum()/len(Doutorandos)
+doutorandos_apos_vinculo = df_após_vinculo[df_após_vinculo['Pesquisador'].isin(Doutorandos)]
+média_artigo_docs = doutorandos_apos_vinculo['Pesquisador'].value_counts().sum()/len(Doutorandos)
 
 
 #pós doutorandos após vinculo
-pos_doutorandos_apos_vinculo = df_após_vinculo[df_após_vinculo['Nome'].isin(Pos_doutorandos)]
-média_artigo_pos_docs = pos_doutorandos_apos_vinculo['Nome'].value_counts().sum()/len(Pos_doutorandos)
+pos_doutorandos_apos_vinculo = df_após_vinculo[df_após_vinculo['Pesquisador'].isin(Pos_doutorandos)]
+média_artigo_pos_docs = pos_doutorandos_apos_vinculo['Pesquisador'].value_counts().sum()/len(Pos_doutorandos)
 
 #professores_após_vinculo
-professores_apos_vinculo = df_após_vinculo[df_após_vinculo['Nome'].isin(Professores)]
-média_artigo_professores = professores_apos_vinculo['Nome'].value_counts().sum()/len(Professores)
-
-
-
-
-
-
-
-
+professores_apos_vinculo = df_após_vinculo[df_após_vinculo['Pesquisador'].isin(Professores)]
+média_artigo_professores = professores_apos_vinculo['Pesquisador'].value_counts().sum()/len(Professores)
 
 #formula usada para calcular o menor período até a publicação do primeiro artigo após vinculo:
 média_do_menor_intervalo = []
-for i,j in professores_apos_vinculo.groupby('Nome')['Public. por período após vínculo']:
+for i,j in professores_apos_vinculo.groupby('Pesquisador')['Public. por período após vínculo']:
   média_do_menor_intervalo.append(j.min())
 sum(média_do_menor_intervalo)/len(média_do_menor_intervalo)
 
@@ -118,10 +110,10 @@ sum(média_do_menor_intervalo)/len(média_do_menor_intervalo)
 #ENCONTRANDO A FREQUÊNCIA DE PUBLICAÇÃO ANUAL APÓS VINCULO AO IB
 #para professores
 #posterirmente substuir "professores_apos_vinculo" pelo correspondente aos pós-docs e doutorandos
-new_df = pd.DataFrame(doutorandos_apos_vinculo['Nome'].value_counts()).reset_index().rename(columns={'Nome':'Artigos','index':'Nome'})
-base_com_vinculo = doutorandos_apos_vinculo[['Inicio','Nome']]
-new_df = pd.merge(new_df, base_com_vinculo, how='left', on='Nome')
-new_df = new_df.drop_duplicates('Nome')
+new_df = pd.DataFrame(doutorandos_apos_vinculo['Pesquisador'].value_counts()).reset_index().rename(columns={'Pesquisador':'Artigos','index':'Pesquisador'})
+base_com_vinculo = doutorandos_apos_vinculo[['Inicio','Pesquisador']]
+new_df = pd.merge(new_df, base_com_vinculo, how='left', on='Pesquisador')
+new_df = new_df.drop_duplicates('Pesquisador')
 
 new_df['Tempo'] = 2022 -new_df['Inicio']
 new_df['Frequência publicacao'] = new_df['Artigos']/new_df['Tempo']
