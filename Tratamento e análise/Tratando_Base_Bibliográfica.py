@@ -10,7 +10,7 @@ Datas_profs = pd.read_excel('Datas_de_formação_Professores.xlsx')
 
 Unindo_datas = pd.concat([Datas_pós_doc,Datas_Docs])
 Unindo_datas = pd.concat([Unindo_datas, Datas_profs])
-Base_geral = pd.merge(Base_geral,Unindo_datas, how='left', on='Pesquisador' ) #Substituir coluna Nome por Pesquisador
+Base_geral = pd.merge(Base_geral,Unindo_datas, how='left', on='Pesquisador' ) 
 
 #periodo de publicação na graduação
 df_graduandos = Base_geral
